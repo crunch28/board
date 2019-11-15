@@ -47,3 +47,7 @@ select /*+INDEX(tbl_reply idx_reply)*/ rownum rn, bno, rno, reply, replyer, repl
 인덱스를 이용한 페이징 쿼리 다중항목
 select rno, bno, reply, replyer, replydate, updatedate from (select /*+INDEX(tbl_reply idx_reply)*/ rownum rn, bno, rno, reply, replyer, replyDate, updatedate from tbl_reply where bno = 게시물번호 and rno > 0 and rownum <=20)where rn >10;
 
+댓글 수 처리
+alter table tbl_board add (replycnt number default 0);
+
+update tbl_board set replycnt = (select count(rno) from tbl_reply where tbl_reply.bno = tbl_board.bno);
