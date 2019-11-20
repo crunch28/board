@@ -12,7 +12,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SB Admin 2 - Bootstrap Admin Theme</title>
+<title>로그인</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="/resources/vendor/bootstrap/css/bootstrap.min.css"
@@ -29,6 +29,9 @@
 <link href="/resources/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 
+<link href="/resources/vendor/font-awesome/css/signin.css"
+	rel="stylesheet" type="text/css">
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -41,39 +44,51 @@
 <body>
 
 	<div class="container">
+
 		<div class="row">
+
 			<div class="col-md-4 col-md-offset-4">
+
 				<div class="login-panel panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Please Sign In</h3>
-					</div>
+
 					<div class="panel-body">
-						<form role="form" method="post" action="/login">
-							<fieldset>
-								<div class="form-group">
-									<input class="form-control" placeholder="E-mail"
-										name="username" type="email" autofocus>
-								</div>
-								<div class="form-group">
-									<input class="form-control" placeholder="Password"
-										name="password" type="password" value="">
-								</div>
-								<div class="checkbox">
-									<label> <input name="remember-me" type="checkbox">Remember
-										Me
-									</label>
-								</div>
-								<!-- Change this to a button or input when using this as a form -->
-								<a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
-							</fieldset>
+						<form role="form" class="form-signin" action="/login"
+							method="post">
+							<img src="/resources/img/logo.jpeg" alt="" width="200"
+								height="200">
+							<h1 class="h3 mb-3 font-weight-normal">로그인</h1>
+							<label for="inputEmail" class="sr-only">ID</label> <input
+								type="text" name="username" id="inputEmail" class="form-control"
+								placeholder="ID" required autofocus> <label
+								for="inputPassword" class="sr-only">Password</label> <input
+								type="password" name="password" id="inputPassword"
+								class="form-control" placeholder="Password" required>
+							<div class="checkbox mb-3">
+								<label> <input type="checkbox" name="remember-me"
+									value="remember-me"> 로그인 상태 유지
+								</label>
+							</div>
+							<button class="btn btn-lg btn-primary btn-success btn-block"
+								type="submit">로그인</button>
 							<input type="hidden" name="${_csrf.parameterName }"
 								value="${_csrf.token }">
 						</form>
+						
+						<br>
+						<button type="button" class="btn btn-light">회원가입</button>
+						<button type="button" class="btn btn-light">아이디 찾기</button>
+						<button type="button" class="btn btn-light">비밀번호 찾기</button>
+						<br> 
+						<a href="/">
+							<button type="button" class="btn btn-light">락 & 학</button>
+						</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+
 
 	<!-- jQuery -->
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>

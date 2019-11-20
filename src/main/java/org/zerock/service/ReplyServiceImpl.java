@@ -24,15 +24,6 @@ public class ReplyServiceImpl implements ReplyService {
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper boardMapper;
 
-	// @Override
-	// public int register(ReplyVO vo) {
-	//
-	// log.info("register......" + vo);
-	//
-	// return mapper.insert(vo);
-	//
-	// }
-
 	@Transactional
 	@Override
 	public int register(ReplyVO vo) {
@@ -63,14 +54,6 @@ public class ReplyServiceImpl implements ReplyService {
 
 	}
 
-	// @Override
-	// public int remove(Long rno) {
-	//
-	// log.info("remove...." + rno);
-	//
-	// return mapper.delete(rno);
-	//
-	// }
 
 	@Transactional
 	@Override

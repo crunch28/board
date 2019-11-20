@@ -100,7 +100,7 @@
 
 						<div class="form-group">
 							<label>글 내용</label>
-							<textarea class="form-control" rows="3" name='content'><c:out
+							<textarea class="form-control" rows="20" name='content'><c:out
 									value="${board.content}" /></textarea>
 						</div>
 
@@ -128,13 +128,13 @@
 
 							<c:if test="${pinfo.username eq board.writer}">
 
-								<button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
-								<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
+								<button type="submit" data-oper='modify' class="btn btn-default">수정</button>
+								<button type="submit" data-oper='remove' class="btn btn-danger">삭제</button>
 							</c:if>
 						</sec:authorize>
 
 
-						<button type="submit" data-oper='list' class="btn btn-info">List</button>
+						<button type="submit" data-oper='list' class="btn btn-info">목록</button>
 
 
 					</form>
@@ -154,7 +154,7 @@
 		<div class="box">
 			<div class="col-lg-12 text-center">
 
-				<div class="panel-heading">Files</div>
+				<div class="panel-heading">파일</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
 					<div class="form-group uploadDiv">

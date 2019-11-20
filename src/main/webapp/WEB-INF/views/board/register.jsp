@@ -77,7 +77,7 @@
 
 						<div class="form-group">
 							<label>게시글 내용</label>
-							<textarea class="form-control" rows="3" name='content'></textarea>
+							<textarea class="form-control" rows="20" name='content'></textarea>
 						</div>
 						<div class="form-group">
 							<label>작성자</label> <input class="form-control" name='writer'
@@ -85,9 +85,9 @@
 								readonly="readonly">
 						</div>
 
-
 						<button type="submit" class="btn btn-default">등록</button>
 						<button type="reset" class="btn btn-default">다시 작성</button>
+						<a href="/board/list"><button type="button" class="btn btn-default">목록</button></a>
 					</form>
 
 				</div>

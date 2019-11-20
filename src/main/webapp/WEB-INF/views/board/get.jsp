@@ -71,15 +71,13 @@
 	</div>
 	<!-- /.container -->
 
-
-
 	<div class="row">
 		<div class="box">
 			<div class="col-lg-12 text-center">
 
 				<!-- /.panel-heading -->
 				<div class="panel-body">
-
+				  
 					<div class="form-group">
 						<label>게시글 번호</label> <input class="form-control" name='bno'
 							value='<c:out value="${board.bno }"/>' readonly="readonly">
@@ -92,15 +90,14 @@
 
 					<div class="form-group">
 						<label>게시 내용</label>
-						<textarea class="form-control" rows="3" name='content'
+						<textarea class="form-control" rows="20" name='content'
 							readonly="readonly"><c:out value="${board.content}" /></textarea>
 					</div>
-
+					
 					<div class="form-group">
-						<label>작성자</label> <input class="form-control" name='writer'
-							value='<c:out value="${board.writer }"/>' readonly="readonly">
-					</div>
-
+         				 <label>작성자</label> <input class="form-control" name='writer'
+         				   value='<c:out value="${board.writer }"/>' readonly="readonly">
+      			  	</div>
 
 					<div class="form-group">
 						<label>파일</label>
@@ -113,6 +110,11 @@
 						</div>
 					</div>
 
+					<!-- 지도 -->
+					<div id="searchMap">
+					<input type="text" name="location" /><button id="location" data-oper='location'>찾기</button>
+					</div>
+					<div id="map" style="width:100%;height:350px;"></div><br>
 
 					<!-- <button data-oper='modify' class="btn btn-default">Modify</button>
  -->
@@ -140,16 +142,14 @@
 							type='hidden' name='keyword'
 							value='<c:out value="${cri.keyword}"/>'> <input
 							type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
-
 					</form>
-
-
 
 				</div>
 				<!--  end panel-body -->
 			</div>
 		</div>
 	</div>
+	
 
 	<div class="row">
 		<div class="box">
@@ -162,12 +162,10 @@
 					</sec:authorize>
 				</div>
 
-
-
 				<!-- /.panel-heading -->
 				<div class="panel-body">
 
-					<ul class="chat">
+					<ul class="chat" style="list-style:none">
 
 					</ul>
 					<!-- ./ end ul -->
@@ -212,7 +210,7 @@
 			</div>
 			<div class="modal-footer">
 				<button id='modalModBtn' type="button" class="btn btn-warning">수정</button>
-				<button id='modalRemoveBtn' type="button" class="btn btn-danger">제거</button>
+				<button id='modalRemoveBtn' type="button" class="btn btn-danger">삭제</button>
 				<button id='modalRegisterBtn' type="button" class="btn btn-primary">등록</button>
 				<button id='modalCloseBtn' type="button" class="btn btn-default">닫기</button>
 			</div>
@@ -263,11 +261,11 @@ $(document).ready(function () {
        
          for (var i = 0, len = list.length || 0; i < len; i++) {
            str +="<li class='left clearfix' data-rno='"+list[i].rno+"'>";
-           str +="  <div><div class='header'><strong class='primary-font'>["
+           str +="  <div><div class='header'><strong class='primary-font pull-left'>["
         	   +list[i].rno+"] "+list[i].replyer+"</strong>"; 
            str +="    <small class='pull-right text-muted'>"
                +replyService.displayTime(list[i].replyDate)+"</small></div>";
-           str +="    <p>"+list[i].reply+"</p></div></li>";
+           str +="    <p>"+list[i].reply+"</p></div></li><br>";
          }
          
          replyUL.html(str);
@@ -355,15 +353,15 @@ $(document).ready(function () {
     $("#addReplyBtn").on("click", function(e){
         
         modal.find("input").val("");
-        modal.find("input[name='replyer']").val(replyer);
+        modal.find("input[name='replyer']").val(replyer).attr("readonly","readonly");
         modalInputReplyDate.closest("div").hide();
         modal.find("button[id !='modalCloseBtn']").hide();
         
         modalRegisterBtn.show();
         
-        $(".modal").modal("show");
-        
-      });
+        $(".modal").modal("show");  
+    
+    });
 
 
     var csrfHeaderName ="${_csrf.headerName}"; 
@@ -384,7 +382,6 @@ $(document).ready(function () {
           };
       replyService.add(reply, function(result){
         
-        alert(result);
         
         modal.find("input").val("");
         modal.modal("hide");
@@ -422,7 +419,8 @@ $(document).ready(function () {
  
     modalModBtn.on("click", function(e){
     	  
-   	  var reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
+      var originalReplyer = modalInputReplyer.val();
+   	  var reply = {rno:modal.data("rno"), reply: modalInputReply.val(), replyer:originalReplyer};
    	  
    	  if(!replyer){
  		  alert("로그인후 수정이 가능합니다.");
@@ -430,7 +428,7 @@ $(document).ready(function () {
  		  return;
  	  }
  	  
- 	  var originalReplyer = modalInputReplyer.val();
+ 	  
  	  
  	  console.log("Original Replyer: " + originalReplyer);
  	  
@@ -441,7 +439,7 @@ $(document).ready(function () {
  		  return;
  		  
  	  }
-   	  
+ 	  
    	  replyService.update(reply, function(result){
    	        
    	    alert(result);
@@ -449,7 +447,6 @@ $(document).ready(function () {
    	    showList(pageNum);
    	    
    	  });
-   	  
    	});
    	
    	
@@ -467,18 +464,17 @@ $(document).ready(function () {
    		  return;
    	  }
    	  
-   	  var originalReplyer = modalInputReplyer.val();
+   	  var originalReplyer = modalInputReplyer.val(); 
    	  
    	  console.log("Original Replyer: " + originalReplyer);
    	  
-   	  if(replyer  != originalReplyer){
+   	  if(replyer != originalReplyer){
    		  
    		  alert("자신이 작성한 댓글만 삭제가 가능합니다.");
    		  modal.modal("hide");
    		  return;
    		  
    	  }
-   	  
    	  
    	  replyService.remove(rno, originalReplyer, function(result){
    	        
@@ -487,7 +483,6 @@ $(document).ready(function () {
    	      showList(pageNum);
    	      
    	  });
-   	  
    	});
 
    	
@@ -497,7 +492,7 @@ $(document).ready(function () {
     
     replyer = '<sec:authentication property="principal.username"/>';   
     
-</sec:authorize>
+	</sec:authorize>
  
 
 
@@ -615,4 +610,68 @@ $(document).ready(function(){
   
 });
 
+</script>
+
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a3c921f511a0432d67e234f41b55e59&libraries=services"></script>
+<script>  
+// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };  
+
+// 지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+// 장소 검색 객체를 생성합니다
+var ps = new kakao.maps.services.Places(); 
+
+
+$("#location").on("click", function(e){
+    
+	var location = $("input[name='location']").val();
+
+	console.log("키워드는 " +location);
+// 키워드로 장소를 검색합니다
+ps.keywordSearch(location, placesSearchCB); 
+
+});
+// 키워드 검색 완료 시 호출되는 콜백함수 입니다
+function placesSearchCB (data, status, pagination) {
+    if (status === kakao.maps.services.Status.OK) {
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        var bounds = new kakao.maps.LatLngBounds();
+
+        for (var i=0; i<data.length; i++) {
+            displayMarker(data[i]);    
+            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        }       
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+        map.setBounds(bounds);
+    } 
+}
+
+// 지도에 마커를 표시하는 함수입니다
+function displayMarker(place) {
+    
+    // 마커를 생성하고 지도에 표시합니다
+    var marker = new kakao.maps.Marker({
+        map: map,
+        position: new kakao.maps.LatLng(place.y, place.x) 
+    });
+
+    // 마커에 클릭이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, 'click', function() {
+        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+        infowindow.open(map, marker);
+    });
+}
 </script>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.ReplyPageDTO;
@@ -62,17 +63,6 @@ public class ReplyController {
 
 	}
 
-	// @DeleteMapping(value = "/{rno}", produces = { MediaType.TEXT_PLAIN_VALUE })
-	// public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
-	//
-	// log.info("remove: " + rno);
-	//
-	// return service.remove(rno) == 1 ? new ResponseEntity<>("success",
-	// HttpStatus.OK)
-	// : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	//
-	// }
-
 	@PreAuthorize("principal.username == #vo.replyer")
 	@DeleteMapping("/{rno}")
 	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno) {
@@ -83,24 +73,8 @@ public class ReplyController {
 
 		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
 	}
-
-	// @GetMapping(value = "/pages/{bno}/{page}",
-	// produces = {
-	// MediaType.APPLICATION_XML_VALUE,
-	// MediaType.APPLICATION_JSON_UTF8_VALUE })
-	// public ResponseEntity<List<ReplyVO>> getList(
-	// @PathVariable("page") int page,
-	// @PathVariable("bno") Long bno) {
-	//
-	//
-	// log.info("getList.................");
-	// Criteria cri = new Criteria(page,10);
-	// log.info(cri);
-	//
-	// return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
-	// }
+	
 
 	@GetMapping(value = "/pages/{bno}/{page}", produces = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
